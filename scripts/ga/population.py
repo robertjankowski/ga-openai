@@ -15,7 +15,7 @@ class Population:
         self.p_mutation = p_mutation
         self.p_crossover = p_crossover
         self.p_inversion = p_inversion
-        self.old_population = [individual for _ in range(pop_size)]
+        self.old_population = [copy.copy(individual) for _ in range(pop_size)]
         self.new_population = []
 
     @timing

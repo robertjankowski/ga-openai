@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from typing import Any
 
 import numpy as np
 import torch
@@ -78,3 +79,26 @@ class MLPTorch(nn.Module, NeuralNetwork):
             model_weights_biases.append(partial_split[i].view(shapes[i]))
         state_dict = OrderedDict(zip(self.state_dict().keys(), model_weights_biases))
         self.load_state_dict(state_dict)
+
+
+class DeepMLPTorch(nn.Module, NeuralNetwork):
+    def __init__(self, input_size, output_size, *hidden_sizes):
+        super(DeepMLPTorch, self).__init__()
+        assert len(hidden_sizes) >= 1
+        self.input_size = input_size
+        self.output_size = output_size
+        self.linear_layers = nn.ModuleList()
+        for in_size, out_size in zip([input_size] + [*hidden_sizes], [*hidden_sizes] + [output_size]):
+            self.linear_layers.append(nn.Linear(in_size, out_size))
+
+    def forward(self, x) -> torch.Tensor:
+        output = x
+        for layers in self.linear_layers[:-1]:
+            output = torch.relu(layers(output))
+        return self.linear_layers[-1](output)  # return logits
+
+    def get_weights_biases(self) -> np.array:
+        return self.state_dict()
+
+    def update_weights_biases(self, weights_biases: np.array) -> None:
+        self.load_state_dict(weights_biases)
