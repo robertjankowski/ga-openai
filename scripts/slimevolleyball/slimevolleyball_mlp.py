@@ -178,8 +178,8 @@ def main():
     env = gym.make('SlimeVolley-v0')
     env.seed(123)
 
-    POPULATION_SIZE = 8
-    MAX_GENERATION = 10
+    POPULATION_SIZE = 2
+    MAX_GENERATION = 1
     MUTATION_RATE = 0.1
     CROSSOVER_RATE = 0.8
 

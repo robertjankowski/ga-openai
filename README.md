@@ -27,7 +27,12 @@ python scripts/tests/bipedalwalker/testing_model_bipedalwalker.py
 From Cartpole-v0 we get vector of observations and reward for each action (0/1) given to the environment.
 The observations is feed into MLP with 4-2-1 architecture and sigmoid function as the output.
 Usually to train the neural network we can use backpropagation algorithm, however here I use a genetic algorithm.
-The goal of the GA is to find the optimal values of weights and biases for a given network. 
+The goal of the GA is to find the optimal values of weights and biases for a given network.
+
+
+| ![network-to-vector](docs/neural_network_to_vector.png) | ![crossover-mutation](docs/crossover_mutation.png) | ![vector-to-network](docs/vector_to_neural_network.png) |
+| -- | -- | --|
+| | |
 
 ##### Fitness function
 
