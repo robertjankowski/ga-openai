@@ -18,6 +18,9 @@ class Population:
         self.old_population = [copy.copy(individual) for _ in range(pop_size)]
         self.new_population = []
 
+    def set_population(self, population: list):
+        self.old_population = population
+
     @timing
     def run(self, env, run_generation: Callable, verbose=False, log=False, output_folder=None):
         for i in range(self.max_generation):
@@ -42,7 +45,8 @@ class Population:
             # TODO:
             #  save model every 1 / 10 of max generation ?
 
-        self.save_model_parameters(output_folder)
+        if output_folder:
+            self.save_model_parameters(output_folder)
 
     def save_logs(self, n_gen, output_folder):
         """
