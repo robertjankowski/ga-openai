@@ -13,4 +13,4 @@ class NeuralNetwork(ABC):
         pass
 
     def load(self, file):
-        self.update_weights_biases(np.load(file))
+        self.update_weights_biases(np.load(file, allow_pickle=True))

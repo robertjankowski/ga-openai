@@ -94,8 +94,8 @@ class DeepMLPTorch(nn.Module, NeuralNetwork):
     def forward(self, x) -> torch.Tensor:
         output = x
         for layers in self.linear_layers[:-1]:
-            output = torch.relu(layers(output))
-        return self.linear_layers[-1](output)  # return logits
+            output = torch.tanh(layers(output))
+        return torch.tanh(self.linear_layers[-1](output))
 
     def get_weights_biases(self) -> np.array:
         return self.state_dict()

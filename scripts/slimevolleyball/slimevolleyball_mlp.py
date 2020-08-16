@@ -13,7 +13,7 @@ from ga.population import Population
 from nn.base_nn import NeuralNetwork
 from nn.mlp import DeepMLPTorch
 
-HIDDEN_SIZE = [10, 8]
+HIDDEN_SIZE = [20, 20]
 
 
 def compare_list(l1, l2) -> bool:
@@ -28,24 +28,33 @@ class DeepMLPTorchIndividual(Individual):
     def get_model(self, input_size, hidden_size, output_size) -> NeuralNetwork:
         return DeepMLPTorch(input_size, output_size, *HIDDEN_SIZE)
 
-    def run_single(self, env, n_episodes=300, render=False) -> Tuple[float, np.array]:
+    def run_single(self, env, n_episodes=10000, render=False) -> Tuple[float, np.array]:
         # Maybe reward should be combined with number of episodes??
         obs = env.reset()
         fitness = 0
         elapsed_episodes = 0
-        alpha = 0.01
+        alpha = 0.001
+        beta = 0.05
+        gamma = 0.01
+        total_lives = 5
         for episode in range(n_episodes):
             if render:
                 env.render()
             obs = torch.from_numpy(obs).float()
             action = self.nn.forward(obs)
             action = action.detach().numpy()
-            obs, reward, done, _ = env.step(action)
-            fitness += reward
+            obs, reward, done, info = env.step(action)
+            enemy_lives = info['ale.otherLives']
+            agent_lives = info['ale.lives']
+            fitness += reward + gamma * agent_lives + beta * (total_lives - enemy_lives)
             elapsed_episodes = episode
             if done:
                 break
-        return fitness + alpha * elapsed_episodes, self.nn.get_weights_biases()
+        # Total reward:
+        # R = \sum_{i=0}^{elapsed_episodes} \left( reward_i + \gamma + agent_lives + \\
+        #      \beta * (total_lives - enemy_lives) \right) + alpha * elapsed_episodes
+        total_reward = fitness + alpha * elapsed_episodes
+        return total_reward, self.nn.get_weights_biases()
 
 
 def unroll_matrix(matrix: torch.Tensor, unroll_technic='vec') -> torch.Tensor:
@@ -178,8 +187,8 @@ def main():
     env = gym.make('SlimeVolley-v0')
     env.seed(123)
 
-    POPULATION_SIZE = 2
-    MAX_GENERATION = 1
+    POPULATION_SIZE = 10
+    MAX_GENERATION = 20
     MUTATION_RATE = 0.1
     CROSSOVER_RATE = 0.8
 
@@ -194,7 +203,8 @@ def main():
                    CROSSOVER_RATE,
                    0.0)
     p.set_population([DeepMLPTorchIndividual(INPUT_SIZE, 0, OUTPUT_SIZE) for _ in range(POPULATION_SIZE)])
-    p.run(env, generation, verbose=True, log=False)
+    p.run(env, generation, verbose=True, log=True,
+          output_folder=f'model-layers={INPUT_SIZE}-{HIDDEN_SIZE}-{OUTPUT_SIZE}', save_as_pytorch=True)
 
 
 if __name__ == '__main__':
