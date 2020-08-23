@@ -77,10 +77,11 @@ class Population:
     def save_model_parameters(self, output_folder, iterations, save_as_pytorch=False):
         best_model = self.get_best_model_parameters()
         file_name = self.get_file_name(self.now()) + f'_I={iterations}_SCORE={best_model.fitness}.npy'
+        output_filename = output_folder + '-' + file_name
         if save_as_pytorch:
-            torch.save(best_model.weights_biases, output_folder + file_name)
+            torch.save(best_model.weights_biases, output_filename)
         else:
-            np.save(output_folder + file_name, best_model.weights_biases)
+            np.save(output_filename, best_model.weights_biases)
 
     def get_best_model_parameters(self) -> np.array:
         """

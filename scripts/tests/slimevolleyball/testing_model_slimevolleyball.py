@@ -19,12 +19,13 @@ def random_policy():
     return np.random.choice([-1, 1], size=3)
 
 
-def mlp_policy(env, model):
+def mlp_policy(env, model, input_size):
     done = False
     obs = env.reset()
     while not done:
         env.render()
         obs = torch.from_numpy(obs).float()
+        obs = obs[:input_size]
         action = model(obs)
         action = action.detach().numpy()
         obs, reward, done, _ = env.step(action)
@@ -33,11 +34,17 @@ def mlp_policy(env, model):
 def main():
     env = gym.make('SlimeVolley-v0')
 
-    model = DeepMLPTorch(12, 3, 20, 20)
-    model.load_state_dict(
-        torch.load(
-            '../../../models/slimevolleyball/model-test08-16-2020_06-36_NN=DeepMLPTorchIndividual_POPSIZE=10_GEN=20_PMUTATION_0.1_PCROSSOVER_0.8_I=17_SCORE=65.09200000000001.npy'))
-    mlp_policy(env, model)
+    input_size = 12
+    output_size = 3
+    hidden_sizes = [8]
+    model = DeepMLPTorch(input_size, output_size, *hidden_sizes)
+    model.load(
+        '../../../models/slimevolleyball/model-layers=12-[8]-3-08-23-2020_03-46_NN=DeepMLPTorchIndividual_POPSIZE=10_GEN=100_PMUTATION_0.01_PCROSSOVER_0.7_I=72_SCORE=129.6260000000004.npy')
+
+    # model.load_state_dict(
+    #     torch.load(
+    #         '../../../models/slimevolleyball/model-layers=12-[8]-3-08-23-2020_03-46_NN=DeepMLPTorchIndividual_POPSIZE=10_GEN=100_PMUTATION_0.01_PCROSSOVER_0.7_I=72_SCORE=129.6260000000004.npy'))
+    mlp_policy(env, model, input_size)
 
 
 if __name__ == '__main__':

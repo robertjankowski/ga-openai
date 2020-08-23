@@ -8,12 +8,13 @@ import random
 import torch
 import collections
 
-from ga.individual import Individual, ranking_selection
+from ga.individual import Individual, ranking_selection, roulette_wheel_selection, crossover_new, mutation as mutation_new
 from ga.population import Population
 from nn.base_nn import NeuralNetwork
 from nn.mlp import DeepMLPTorch
+from spell.bipedalwalker_mlp_spell import blx_alpha
 
-HIDDEN_SIZE = [20, 20]
+HIDDEN_SIZE = [10, 10]
 
 
 def compare_list(l1, l2) -> bool:
@@ -41,6 +42,7 @@ class DeepMLPTorchIndividual(Individual):
             if render:
                 env.render()
             obs = torch.from_numpy(obs).float()
+            obs = obs[:self.input_size]
             action = self.nn.forward(obs)
             action = action.detach().numpy()
             obs, reward, done, info = env.step(action)
@@ -130,7 +132,7 @@ def crossover(i1: DeepMLPTorchIndividual, i2: DeepMLPTorchIndividual) -> Tuple[D
     return new_i1, new_i2
 
 
-def mutation(i1: DeepMLPTorchIndividual, scale=10) -> DeepMLPTorchIndividual:
+def mutation(i1: DeepMLPTorchIndividual, scale=0.1) -> DeepMLPTorchIndividual:
     new_i1 = copy.deepcopy(i1)
     layer = get_random_layer(new_i1)
     layer_i1 = i1.weights_biases[layer]
@@ -160,17 +162,26 @@ def generation(env,
     for i in range(0, len(old_population) - 1, 2):
         # Selection
         parent1, parent2 = ranking_selection(old_population)
+        # parent1 = roulette_wheel_selection(old_population)
+        # parent2 = roulette_wheel_selection(old_population)
+
+        child1 = copy.deepcopy(parent1)
+        child2 = copy.deepcopy(parent2)
 
         # Crossover
         if p_crossover > np.random.rand():
-            child1, child2 = crossover(parent1, parent2)
-        else:
-            child1, child2 = parent1, parent2
+            child1.weights_biases, child2.weights_biases = blx_alpha(parent1.weights_biases,
+                                                                     parent2.weights_biases)
 
         # Mutation
-        if p_mutation > np.random.rand():
-            child1 = mutation(child1)
-            child2 = mutation(child2)
+        child1.weights_biases = mutation_new(child1.weights_biases, p_mutation)
+        child2.weights_biases = mutation_new(child2.weights_biases, p_mutation)
+        # if p_mutation > np.random.rand():
+        #     child1 = mutation(child1)
+        #     child2 = mutation(child2)
+
+        child1.update_model()
+        child2.update_model()
 
         child1.calculate_fitness(env)
         child2.calculate_fitness(env)
@@ -187,10 +198,10 @@ def main():
     env = gym.make('SlimeVolley-v0')
     env.seed(123)
 
-    POPULATION_SIZE = 10
-    MAX_GENERATION = 20
-    MUTATION_RATE = 0.1
-    CROSSOVER_RATE = 0.8
+    POPULATION_SIZE = 20
+    MAX_GENERATION = 100
+    MUTATION_RATE = 0.4
+    CROSSOVER_RATE = 0.7
 
     INPUT_SIZE = 12
     OUTPUT_SIZE = 3
@@ -204,7 +215,7 @@ def main():
                    0.0)
     p.set_population([DeepMLPTorchIndividual(INPUT_SIZE, 0, OUTPUT_SIZE) for _ in range(POPULATION_SIZE)])
     p.run(env, generation, verbose=True, log=True,
-          output_folder=f'model-layers={INPUT_SIZE}-{HIDDEN_SIZE}-{OUTPUT_SIZE}', save_as_pytorch=True)
+          output_folder=f'model-layers={INPUT_SIZE}-{HIDDEN_SIZE}-{OUTPUT_SIZE}', save_as_pytorch=False)
 
 
 if __name__ == '__main__':

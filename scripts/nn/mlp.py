@@ -94,11 +94,25 @@ class DeepMLPTorch(nn.Module, NeuralNetwork):
     def forward(self, x) -> torch.Tensor:
         output = x
         for layers in self.linear_layers[:-1]:
-            output = torch.tanh(layers(output))
+            output = layers(output)
         return torch.tanh(self.linear_layers[-1](output))
 
     def get_weights_biases(self) -> np.array:
-        return self.state_dict()
+        # return self.state_dict()
+        parameters = self.state_dict().values()
+        parameters = [p.flatten() for p in parameters]
+        parameters = torch.cat(parameters, 0)
+        return parameters.detach().numpy()
 
     def update_weights_biases(self, weights_biases: np.array) -> None:
-        self.load_state_dict(weights_biases)
+        # self.load_state_dict(weights_biases)
+        weights_biases = torch.from_numpy(weights_biases)
+        shapes = [x.shape for x in self.state_dict().values()]
+        shapes_prod = [torch.tensor(s).numpy().prod() for s in shapes]
+
+        partial_split = weights_biases.split(shapes_prod)
+        model_weights_biases = []
+        for i in range(len(shapes)):
+            model_weights_biases.append(partial_split[i].view(shapes[i]))
+        state_dict = OrderedDict(zip(self.state_dict().keys(), model_weights_biases))
+        self.load_state_dict(state_dict)
