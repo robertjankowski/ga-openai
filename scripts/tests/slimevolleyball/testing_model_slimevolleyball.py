@@ -33,17 +33,15 @@ def mlp_policy(env, model, input_size):
 
 def main():
     env = gym.make('SlimeVolley-v0')
-
+    env.seed(13)
     input_size = 12
     output_size = 3
-    hidden_sizes = [8]
+    hidden_sizes = [20, 128, 10, 5]
     model = DeepMLPTorch(input_size, output_size, *hidden_sizes)
-    model.load(
-        '../../../models/slimevolleyball/model-layers=12-[8]-3-08-23-2020_03-46_NN=DeepMLPTorchIndividual_POPSIZE=10_GEN=100_PMUTATION_0.01_PCROSSOVER_0.7_I=72_SCORE=129.6260000000004.npy')
-
-    # model.load_state_dict(
-    #     torch.load(
-    #         '../../../models/slimevolleyball/model-layers=12-[8]-3-08-23-2020_03-46_NN=DeepMLPTorchIndividual_POPSIZE=10_GEN=100_PMUTATION_0.01_PCROSSOVER_0.7_I=72_SCORE=129.6260000000004.npy'))
+    model.load_state_dict(
+        torch.load(
+            '../../../models/slimevolleyball/model-layers=12-[20, 128, 10, 5]-308-28-2020_17-30_NN=DeepMLPTorchIndividual_POPSIZE=40_GEN=20000_PMUTATION_0.2_PCROSSOVER_0.8_I=15040_SCORE=164.3799999999988.npy')
+    )
     mlp_policy(env, model, input_size)
 
 
