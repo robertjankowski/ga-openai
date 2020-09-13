@@ -12,6 +12,10 @@
 | ------------- |:-------------:|
 | ![cartpole-random](docs/cartpole/cartpole_random.gif) | ![cartpole-random](docs/cartpole/cartpole_nn.gif) |
 
+| GA SlimeVolley-v0 | 
+| ----------------- |
+| ![slimevolley](docs/slimevolley/slimevolley_nn.gif) |
+| The [Slime Volleyball environment](https://github.com/hardmaru/slimevolleygym/) turned out to be quite hard for proposed method. The interesting fact to observe is that trained agent (on the right) tries to imitate movement of its opponent.| 
 
 ### Run and test
 Pretrained models are located in `models` folder. Testing scripts are in `scripts/tests`.
@@ -152,21 +156,26 @@ def get_fitness(n_episodes):
   </tr>
   <tr>
 	  <td><b>Environment</b> (continuous)<br><br> - 12-dim vector with position and velocity of each agents and the ball </td>
-    <td rowspan="5"> <img src="" width="120%" /> </td>
+    <td rowspan="5"> <img src="docs/slimevolley/slimevolley_nn.png" width="90%" /> </td>
   </tr>
   <tr>
 	  <td><b>Actions</b> (discrete):<br><br> - 3-dim vector (go left, right or jump)</td>
   </tr>
   <tr>
-	  <td><b>Reward</b> <br><br> - For that task I created custom fitness function: 
+	  <td><b>Reward</b> <br><br> For that task I created custom fitness function: <br>
        <a href="https://www.codecogs.com/eqnedit.php?latex=R&space;=&space;\sum_{i=0}^{elapsed\_episodes}&space;\left(&space;reward_i&space;&plus;&space;\gamma&space;\cdot&space;agent\_lives&space;&plus;&space;\beta&space;\cdot&space;(total\_lives&space;-&space;enemy\_lives)&space;\right)&space;&plus;&space;\alpha&space;\cdot&space;elapsed\_episodes" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R&space;=&space;\sum_{i=0}^{elapsed\_episodes}&space;\left(&space;reward_i&space;&plus;&space;\gamma&space;\cdot&space;agent\_lives&space;&plus;&space;\beta&space;\cdot&space;(total\_lives&space;-&space;enemy\_lives)&space;\right)&space;&plus;&space;\alpha&space;\cdot&space;elapsed\_episodes" title="R = \sum_{i=0}^{elapsed\_episodes} \left( reward_i + \gamma \cdot agent\_lives + \beta \cdot (total\_lives - enemy\_lives) \right) + \alpha \cdot elapsed\_episodes" /></a>
-       <br></td>
+       </td>
   </tr>
   <tr>
   <td><b>Episode Termination</b><br><br> The episode ends when either agent loss all five lives, or after 3000 timesteps have passed </td>
   </tr>
   <tr>
-	  <td><b>Genetic algorithm parameters</b><br> TODO </td>
+	  <td><b>Genetic algorithm parameters</b> <br>
+    - Population: 30 <br>
+    - Number of generations: 2000 (the best model at iteration 1824) <br>
+    - Mutation rate: 0.1 <br>
+    - Crossover rate: 0.8 <br>
+    </td>
   </tr>
 </table>
 
