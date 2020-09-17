@@ -1,6 +1,7 @@
 import gym
 import torch
 
+from gym import wrappers
 from nn.mlp import DeepMLPTorch
 
 
@@ -21,7 +22,7 @@ def test_mlp_torch(model, input_size: int, is_reduced=False):
 if __name__ == '__main__':
     env = gym.make('BipedalWalker-v2')
     # env = gym.wrappers.Monitor(env, 'bipedalwalker', video_callable=lambda episode_id: True, force=True)
-    env.seed(333)
+    env.seed(234)
 
     INPUT_SIZE = 24
     HIDDEN_SIZE = [20, 12, 12]

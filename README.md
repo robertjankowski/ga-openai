@@ -7,7 +7,7 @@
 
  | Random BipedalWalker-v2 | GA BipedalWalker-v2 | 
 | ------------- |:-------------:|
-| ![mlp_bipedal](docs/bipedalwalker/bipedalwalker_random.gif) | ![mlp_bipedal](docs/bipedalwalker/mlp_bipedalwalker.gif) |
+| ![mlp_bipedal](docs/bipedalwalker/bipedalwalker_random.gif) | <img src="docs/bipedalwalker/bipedalwalker_run_24_20_12_12_4.gif" width="60"> |
 
  | Random Cartpole-v0 | GA Cartpole-v0 | 
 | ------------- |:-------------:|
@@ -106,7 +106,7 @@ def compute_fitness_function(env, model, n_episodes: int):
   return fitness
 ```
 
-| ![fitness_function](docs/bipedalwalker/fitness_function.png) |
+| <img src="docs/bipedalwalker/bipedalwalker-24-20-12-12-4.png" width="600"> |
 |:---:| 
 | Mean value of the fitness function for BipedalWalker-v2 problem |
 
@@ -119,7 +119,7 @@ Environments
 
 <table>
   <tr>
-	  <th><i><h4><a href="https://gym.openai.com/envs/CarRacing-v0/">CarRacing-v0<a/></h4></i></th>
+	  <th><i><h4><a href="https://gym.openai.com/envs/CarRacing-v0/">CarRacing-v0</a></h4></i></th>
 	  <th><i>Architecture</i></th>
   </tr>
   <tr>
@@ -197,7 +197,7 @@ Environments
 	  <td><b>Actions</b> (discrete):<br> - 3-dim vector (go left, right or jump)</td>
   </tr>
   <tr>
-	  <td><b>Reward</b> <br> For that task I created custom fitness function: <br>
+	  <td><b>Reward</b> <br> For that task I designed custom fitness function: <br>
        <a href="https://www.codecogs.com/eqnedit.php?latex=R&space;=&space;\sum_{i=0}^{elapsed\_episodes}&space;\left(&space;reward_i&space;&plus;&space;\gamma&space;\cdot&space;agent\_lives&space;&plus;&space;\beta&space;\cdot&space;(total\_lives&space;-&space;enemy\_lives)&space;\right)&space;&plus;&space;\alpha&space;\cdot&space;elapsed\_episodes" target="_blank"><img src="https://latex.codecogs.com/gif.latex?R&space;=&space;\sum_{i=0}^{elapsed\_episodes}&space;\left(&space;reward_i&space;&plus;&space;\gamma&space;\cdot&space;agent\_lives&space;&plus;&space;\beta&space;\cdot&space;(total\_lives&space;-&space;enemy\_lives)&space;\right)&space;&plus;&space;\alpha&space;\cdot&space;elapsed\_episodes" title="R = \sum_{i=0}^{elapsed\_episodes} \left( reward_i + \gamma \cdot agent\_lives + \beta \cdot (total\_lives - enemy\_lives) \right) + \alpha \cdot elapsed\_episodes" /></a>
        </td>
   </tr>
