@@ -7,7 +7,7 @@
 
  | Random BipedalWalker-v2 | GA BipedalWalker-v2 | 
 | ------------- |:-------------:|
-| ![mlp_bipedal](docs/bipedalwalker/bipedalwalker_random.gif) | <img src="docs/bipedalwalker/bipedalwalker_run_24_20_12_12_4.gif" width="60"> |
+| ![mlp_bipedal](docs/bipedalwalker/bipedalwalker_random.gif) | <img src="docs/bipedalwalker/bipedalwalker_run_24_20_12_12_4.gif" width="600"> |
 
  | Random Cartpole-v0 | GA Cartpole-v0 | 
 | ------------- |:-------------:|
