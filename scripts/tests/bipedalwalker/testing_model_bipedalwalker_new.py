@@ -25,12 +25,13 @@ if __name__ == '__main__':
     env.seed(234)
 
     INPUT_SIZE = 24
-    HIDDEN_SIZE = [20, 12, 12]
+    HIDDEN_SIZE = [2]
     OUTPUT_SIZE = 4
 
     model = DeepMLPTorch(INPUT_SIZE, OUTPUT_SIZE, *HIDDEN_SIZE)
     model.load(
         "../../../models/bipedalwalker/large_model/model-layers=24-[20, 12, 12]-4-09-14-2020_11-54_NN=DeepBipedalWalkerIndividual_POPSIZE=40_GEN=5000_PMUTATION_0.1_PCROSSOVER_0.85_I=4949_SCORE=53.64846821325179.npy"
     )
+    # model = torch.load("../../bipedalwalker/offline_learning/new_model.pt")
     test_mlp_torch(model, input_size=INPUT_SIZE, is_reduced=True)
     env.close()
