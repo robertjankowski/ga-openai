@@ -125,6 +125,13 @@ Extra experiments
 
 _Can we reduce the sizes of the neural network while keeping good performance in the particular environment?_ The first step was to gather the training data for the smaller (student) model i.e. I took the best model (from BipedalWalker environment) and ran it multiple times whilst saving both the features (observations from environment) and the labels (models' actions). The initial neural model architecture was shrinkage significantly, from `24-20-12-12-4` to `4-4-4`, interestingly, preserving the ability to complete the task. 
 
+## Multitask learning
+
+| ![multitask_learning](docs/multitask_learning.jpg) |
+| :------------------------------------------------: |
+| Example scheme for training the agent in two environments  |
+
+> TODO add more details:  <21-09-20> >
 
 Environments
 ============
