@@ -127,9 +127,9 @@ _Can we reduce the sizes of the neural network while keeping good performance in
 
 ## Multitask learning
 
-| ![multitask_learning](docs/multitask_learning.jpg) |
-| :------------------------------------------------: |
-| Example scheme for training the agent in two environments  |
+| ![multitask_learning](docs/multitask_learning.jpg) | ![multitask_learning_example](docs/multitask_learning_example_architecture.png) | 
+| :------------------------------------------------: | :------------------------------: |
+| Example scheme for training the agent in two environments  | Example model architecture for multitask learning | 
 
 > TODO add more details:  <21-09-20> >
 
