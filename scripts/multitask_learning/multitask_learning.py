@@ -69,7 +69,7 @@ if __name__ == '__main__':
     cartpole_shape = Shape(4, 1)
     bipedalwalker_shape = Shape(24, 4)
 
-    hidden_sizes = [12, 20, 8]
+    hidden_sizes = [12, 20, 4]
     model = MultiTaskModel(cartpole_shape, bipedalwalker_shape, *hidden_sizes)
     # model.plot_model("../../docs/multitask_learning_example_architecture.png", show_shapes=True)
 
@@ -91,7 +91,3 @@ if __name__ == '__main__':
         batch_size=32,
         callbacks=[checkpoint_callback("multitask-model-test/model")]
     )
-    # 1. load data
-    # 2. feed model with data
-    # 3. plot loss vs epochs
-    # 4. check how the model performs in two environments
