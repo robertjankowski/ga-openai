@@ -36,7 +36,7 @@ Overview
 ========
 
 The project aims to train neural networks using genetic algorithms. Instead of minimalizing the cost function using common optimizers such as: SGD or Adam the simple GA was used.
-The algorithm was tring to alter the weights and biased of the neural network to produce the best score of the fitness function. 
+The algorithm was trying to alter the weights and biases of the neural network to achieve the best score of the fitness function. 
 The profound description of genetic algorithms as well as the used environments are shown below.
 
 Usage
@@ -49,11 +49,11 @@ Create virtual environment (`python3 -m venv name-of-venv && source name-of-venv
 ### Test pretrained model
 
 The pretrained models are located in `models/{name_of_environment}` directory. For example to check how the model performs in BipedalWalker environment, specify name of the
-pretrained model in `tests/bipedalwalker/testing_model_bipedalwalker.py` script (also model adjust model architecture) and run that script.
+pretrained model in `tests/bipedalwalker/testing_model_bipedalwalker.py` script (also one have to adjust the model architecture) and run that script.
 
 ### Train neural models
 
-Due to my limited computing resources, for training neural models I used [Spell](https://web.spell.run/robjan/) platform (I really recommend it for smaller project)
+Due to my limited computing resources, in training neural models I have used [Spell](https://web.spell.run/robjan/) platform (I really recommend it for smaller project)
 
 ```shell script
 spell run "python scripts/spell/bipedalwalker_mlp_spell.py" --pip-req requirements.txt
@@ -78,8 +78,7 @@ The approach, used in this project, assumes application of simple GA in order to
 | ![network-to-vector](docs/neural_network_to_vector.png) | ![crossover-mutation](docs/crossover_mutation.png) | ![vector-to-network](docs/vector_to_neural_network.png) |
 | -- | -- | -- |
 
-The figure on the left hand-side depicts the steps in order to turn the weights and biases of the neural network into the genotype. Firstly, the matrices are flattened and the biases vectors are
-concatenated to them. After one episode of the genetic algorithm, the genotype (vector) is converted into the input neural network architecture (the figure on the right hand-side).
+The figure on the left hand-side depicts the steps in order to turn the weights and biases of the neural network into the genotype. Firstly, the matrices are flattened and the biases vectors are concatenated to them. After one episode of the genetic algorithm, the genotype (vector) is converted into the input neural network architecture (the figure on the right hand-side).
 
 ### Genetic Algorithm
 
